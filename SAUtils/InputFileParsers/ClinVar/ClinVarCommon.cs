@@ -33,7 +33,17 @@ namespace SAUtils.InputFileParsers.ClinVar
             
             "conflicting interpretations of pathogenicity", // observed in VCV XML only
             "established risk allele", // observed in VCV XML only
-            "likely risk allele"                            // observed in VCV XML only
+            "likely risk allele",                            // observed in VCV XML only
+
+            // Values observed in newer XMLs
+            "no classifications from unflagged records",
+            "mut",
+            "variant of uncertain significance",
+            "variant of unknown significance",
+            "conflicting data from submitters",
+
+
+
         };
         public enum ReviewStatus
         {
