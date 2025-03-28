@@ -41,9 +41,8 @@ namespace SAUtils.InputFileParsers.ClinVar
             "variant of uncertain significance",
             "variant of unknown significance",
             "conflicting data from submitters",
-
-
-
+            "uncertain risk allele",
+            "low penetrance"
         };
         public enum ReviewStatus
         {
@@ -77,7 +76,8 @@ namespace SAUtils.InputFileParsers.ClinVar
             ["classified by multiple submitters"]                    = ReviewStatus.multiple_submitters,
             ["criteria provided, multiple submitters, no conflicts"] = ReviewStatus.multiple_submitters_no_conflict,
             ["criteria provided, single submitter"]                  = ReviewStatus.single_submitter,
-            ["no interpretation for the single variant"]  = ReviewStatus.no_interpretation_single
+            ["no interpretation for the single variant"]  = ReviewStatus.no_interpretation_single,
+            ["no classifications from unflagged records"]            = ReviewStatus.no_assertion
         };
 
         public static readonly Dictionary<ReviewStatus, string> ReviewStatusStrings = new Dictionary<ReviewStatus, string>
@@ -98,7 +98,7 @@ namespace SAUtils.InputFileParsers.ClinVar
             if(string.IsNullOrEmpty(explanation)) return description?.ToLower().Split('/', ',', ';').Select(x=>x.Trim()).ToArray();
             //<Explanation DataSource="ClinVar" Type="public">Pathogenic(1);Uncertain significance(1)</Explanation>
             var significances =new List<string>();
-            foreach (var significance in explanation.ToLower().Split('/',';'))
+            foreach (var significance in explanation.ToLower().Split('/',';',','))
             {
                 var openParenthesisIndex = significance.IndexOf('(');
                 significances.Add(openParenthesisIndex < 0 ? significance.Trim() : significance.Substring(0, openParenthesisIndex).Trim());
