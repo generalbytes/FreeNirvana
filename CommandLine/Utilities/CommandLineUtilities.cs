@@ -62,11 +62,17 @@ namespace CommandLine.Utilities
         {
             // create the top and bottom lines
             const int lineLength = 75;
+            const int maxVersionLength = 20; // Define a maximum length for the version string
             var line = new string('-', lineLength);
+
+            // truncate the version if it's too long
+            var truncatedVersion = InformationalVersion.Length > maxVersionLength
+                ? InformationalVersion.Substring(0, maxVersionLength) + "..."
+                : InformationalVersion;
 
             // create the filler string
             int fillerLength  = lineLength - Title.Length - Copyright.Length;
-            int fillerLength2 = lineLength - author.Length - InformationalVersion.Length;
+            int fillerLength2 = lineLength - author.Length - truncatedVersion.Length;
 
             if (fillerLength < 1)
             {
@@ -87,7 +93,7 @@ namespace CommandLine.Utilities
             Console.Write(Title);
             Console.ResetColor();
             Console.WriteLine("{0}{1}", filler, Copyright);
-            Console.WriteLine("{0}{1}{2}", author, filler2, InformationalVersion);
+            Console.WriteLine("{0}{1}{2}", author, filler2, truncatedVersion);
             Console.WriteLine("{0}\n", line);
         }
 
